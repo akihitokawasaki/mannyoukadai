@@ -1,20 +1,35 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
+  before do
+    # 「タスク一覧画面」や「タスク詳細画面」などそれぞれのテストケースで、before内のコードが実行される
+    # 各テストで使用するタスクを1件作成する
+    # 作成したタスクオブジェクトを各テストケースで呼び出せるようにインスタンス変数に代入
+    @task = FactoryBot.create(:task, name: 'task')
+  end
+  # background do
+  #   # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
+  #   FactoryBot.create(:task)
+  #   FactoryBot.create(:second_task)
+  # end
   describe 'タスク一覧画面' do
     context 'タスクを作成した場合' do
-      # テストコードを it '~' do end ブロックの中に記載する
       it '作成済みのタスクが表示される' do
-        # テストで使用するためのタスクを作成
-        task = FactoryBot.create(:task, name: 'task')
-        # タスク一覧ページに遷移
+        # beforeに必要なタスクデータが作成されるので、ここでテストデータ作成処理を書く必要がない
         visit tasks_path
-        # visitした（遷移した）page（タスク一覧ページ）に「task」という文字列が
-        # have_contentされているか。（含まれているか。）ということをexpectする（確認・期待する）
         expect(page).to have_content 'task'
-        # expectの結果が true ならテスト成功、false なら失敗として結果が出力される
       end
     end
-  end  
+    context '複数のタスクを作成した場合' do
+      it 'タスクが作成日時の降順に並んでいる' do
+        new_task = FactoryBot.create(:task, name: 'new_task')
+        visit tasks_path
+        task_list = all('.task_row') # タスク一覧を配列として取得するため、View側でidを振っておく
+        expect(task_list[0]).to have_content 'new_task'
+        expect(task_list[1]).to have_content 'task'
+      end
+    end
+  end
+    
   describe 'タスク登録画面' do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
@@ -30,7 +45,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in 'task_description', with: 'テストコード詳細'
       # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
       # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
-        click_on 'Create Task'
+        click_on '登録する'
       # clickで登録されたはずの情報が、タスク詳細ページに表示されているかを確認する
       # （タスクが登録されたらタスク詳細画面に遷移されるという前提）
       # 5.タスク詳細ページに、テストコードで作成したはずのデータ（記述）がhave_contentされているか（含まれているか）を確認（期待）するコードを書く
@@ -41,10 +56,10 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe 'タスク詳細画面' do
      context '任意のタスク詳細画面に遷移した場合' do
        it '該当タスクの内容が表示されたページに遷移する' do
-        task = FactoryBot.create(:task, name: 'テストコード')
-        visit tasks_path
-        click_on 'Show'
-        expect(page).to have_content 'テストコード'
+         task = FactoryBot.create(:task, name: 'テストコード')
+         visit tasks_path
+         click_on 'Show', match: :first
+         expect(page).to have_content 'テストコード'
        end 
      end
   end
