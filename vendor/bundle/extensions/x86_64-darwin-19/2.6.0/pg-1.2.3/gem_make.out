@@ -1,5 +1,5 @@
 current directory: /Users/jikijiu/workspace/mannyou/vendor/bundle/gems/pg-1.2.3/ext
-/Users/jikijiu/.rbenv/versions/2.6.5/bin/ruby -I /Users/jikijiu/.rbenv/versions/2.6.5/lib/ruby/2.6.0 -r ./siteconf20200507-21704-1c8jhrl.rb extconf.rb
+/Users/jikijiu/.rbenv/versions/2.6.5/bin/ruby -I /Users/jikijiu/.rbenv/versions/2.6.5/lib/ruby/2.6.0 -r ./siteconf20200513-6716-1bgjrsb.rb extconf.rb
 checking for pg_config... yes
 Using config values from /usr/local/bin/pg_config
 checking for libpq-fe.h... yes
@@ -150,4 +150,4 @@ linking shared-object pg_ext.bundle
 
 current directory: /Users/jikijiu/workspace/mannyou/vendor/bundle/gems/pg-1.2.3/ext
 make "DESTDIR=" install
-/usr/bin/install -c -m 0755 pg_ext.bundle ./.gem.20200507-21704-lv39mw
+/usr/bin/install -c -m 0755 pg_ext.bundle ./.gem.20200513-6716-uaik3d

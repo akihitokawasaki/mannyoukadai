@@ -1,5 +1,5 @@
 current directory: /Users/jikijiu/workspace/mannyou/vendor/bundle/gems/ffi-1.12.2/ext/ffi_c
-/Users/jikijiu/.rbenv/versions/2.6.5/bin/ruby -I /Users/jikijiu/.rbenv/versions/2.6.5/lib/ruby/2.6.0 -r ./siteconf20200507-21704-1dp6sve.rb extconf.rb
+/Users/jikijiu/.rbenv/versions/2.6.5/bin/ruby -I /Users/jikijiu/.rbenv/versions/2.6.5/lib/ruby/2.6.0 -r ./siteconf20200513-6716-1djadbl.rb extconf.rb
 checking for ffi_call() in -lffi... yes
 checking for ffi_closure_alloc()... yes
 checking for shlwapi.h... no
@@ -51,4 +51,4 @@ linking shared-object ffi_c.bundle
 
 current directory: /Users/jikijiu/workspace/mannyou/vendor/bundle/gems/ffi-1.12.2/ext/ffi_c
 make "DESTDIR=" install
-/usr/bin/install -c -m 0755 ffi_c.bundle ./.gem.20200507-21704-1g6a74d
+/usr/bin/install -c -m 0755 ffi_c.bundle ./.gem.20200513-6716-ueik5t
