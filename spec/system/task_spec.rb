@@ -37,18 +37,13 @@ RSpec.describe 'タスク管理機能', type: :system do
         # new_task_pathにvisitする（タスク登録ページに遷移する）
       # 1.ここにnew_task_pathにvisitする処理を書く
         visit new_task_path
-      # 「タスク名」というラベル名の入力欄と、「タスク詳細」というラベル名の入力欄に
-      # タスクのタイトルと内容をそれぞれfill_in（入力）する
-      # 2.ここに「タスク名」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
         fill_in 'task_name', with: 'テストコード' 
-      # 3.ここに「タスク詳細」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
         fill_in 'task_description', with: 'テストコード詳細'
-      # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
-      # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
+        
+        
+        select('未着手')
+        select('高')
         click_on '登録する'
-      # clickで登録されたはずの情報が、タスク詳細ページに表示されているかを確認する
-      # （タスクが登録されたらタスク詳細画面に遷移されるという前提）
-      # 5.タスク詳細ページに、テストコードで作成したはずのデータ（記述）がhave_contentされているか（含まれているか）を確認（期待）するコードを書く
         expect(page).to have_content 'テストコード'
       end
     end
@@ -62,5 +57,21 @@ RSpec.describe 'タスク管理機能', type: :system do
          expect(page).to have_content 'テストコード'
        end 
      end
+  end
+  describe 'タスク一覧画面' do
+    context '検索をした場合' do
+      before do
+        FactoryBot.create(:task, name: "task")
+        FactoryBot.create(:second_task, name: "sample")
+      end
+      it "タイトルで検索できる" do
+        visit tasks_path
+        fill_in 'name', with: "Factory"
+        select("未着手")
+        click_on "検索"
+        save_and_open_page
+        expect(page).to have_content "Factoryで作ったデフォルトのタイトル１"
+      end
+    end
   end
 end
