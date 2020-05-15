@@ -39,8 +39,6 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in 'task_name', with: 'テストコード' 
         fill_in 'task_description', with: 'テストコード詳細'
-        
-        
         select('未着手')
         select('高')
         click_on '登録する'
@@ -66,11 +64,10 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
       it "タイトルで検索できる" do
         visit tasks_path
-        fill_in 'name', with: "Factory"
-        select("未着手")
+        fill_in 'Name', with: "sample"
+        select("着手中")
         click_on "検索"
-        save_and_open_page
-        expect(page).to have_content "Factoryで作ったデフォルトのタイトル１"
+        expect(page).to have_content "Factoryで作ったデフォルトのコンテント２"
       end
     end
   end
