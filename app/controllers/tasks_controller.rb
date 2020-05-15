@@ -1,28 +1,34 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-
-  # GET /tasks
-  # GET /tasks.json
+  PER = 5
   def index
-    @tasks = Task.all
+    if params[:sort_deadline]
+      @tasks = Task.all.order(deadline: :asc).page(params[:page]).per(PER)
+    elsif params[:sort_priority]
+      @tasks = Task.all.order(priority: :asc).page(params[:page]).per(PER)
+    elsif params[:name].present?
+      @tasks = Task.where(name: params[:name]).page(params[:page]).per(PER)
+    if params[:status].present?
+        @tasks = Task.where(name: params[:name]).where(status: params[:status]).page(params[:page]).per(PER)
+    end  
+    elsif params[:status].present?
+        @tasks = Task.where(status: params[:status]).page(params[:page]).per(PER)
+    else
+      puts params[:sort_deadline]
+      @tasks = Task.all.order(created_at: :desc).page(params[:page]).per(PER)
+    end
   end
 
-  # GET /tasks/1
-  # GET /tasks/1.json
   def show
   end
 
-  # GET /tasks/new
   def new
     @task = Task.new
   end
 
-  # GET /tasks/1/edit
   def edit
   end
 
-  # POST /tasks
-  # POST /tasks.json
   def create
     @task = Task.new(task_params)
 
@@ -37,8 +43,6 @@ class TasksController < ApplicationController
     end
   end
 
-  # PATCH/PUT /tasks/1
-  # PATCH/PUT /tasks/1.json
   def update
     respond_to do |format|
       if @task.update(task_params)
@@ -51,8 +55,6 @@ class TasksController < ApplicationController
     end
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
   def destroy
     @task.destroy
     respond_to do |format|
@@ -62,13 +64,11 @@ class TasksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_task
       @task = Task.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :description)
+      params.require(:task).permit(:name, :description, :deadline, :priority, :status)
     end
 end
