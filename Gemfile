@@ -70,4 +70,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 gem 'kaminari', '~> 0.17.0'
+gem 'bcrypt', '3.1.11'
 
