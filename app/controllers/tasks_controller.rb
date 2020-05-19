@@ -9,10 +9,10 @@ class TasksController < ApplicationController
     elsif params[:name].present?
       @tasks = Task.where(name: params[:name]).page(params[:page]).per(PER)
     if params[:status].present?
-        @tasks = Task.where(name: params[:name]).where(status: params[:status]).page(params[:page]).per(PER)
+      @tasks = Task.where(name: params[:name]).where(status: params[:status]).page(params[:page]).per(PER)
     end  
     elsif params[:status].present?
-        @tasks = Task.where(status: params[:status]).page(params[:page]).per(PER)
+      @tasks = Task.where(status: params[:status]).page(params[:page]).per(PER)
     else
       puts params[:sort_deadline]
       @tasks = Task.all.order(created_at: :desc).page(params[:page]).per(PER)
