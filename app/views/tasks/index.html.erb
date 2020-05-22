@@ -12,6 +12,11 @@
   <%= f.label :status %>
   <%= f.select :status, [["未着手", 0 ], ["着手中", 1 ], ["完了", 2 ]], include_blank: true %>
   <br>
+  <br>
+  <% Label.all.each do |label| %>
+    <%= f.check_box :label_ids, { multiple: true, checked: label[:checked], disabled: label[:disabled], include_hidden: false}, label[:id], "" %>
+      <%= label.name %>
+  <% end %>
   <%= f.submit "検索" %>
 <% end %>
 <table>
