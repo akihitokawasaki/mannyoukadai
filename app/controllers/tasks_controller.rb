@@ -1,21 +1,22 @@
 class TasksController < ApplicationController
+  before_action :authenticate_user
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   PER = 5
   def index
     if params[:sort_deadline]
-      @tasks = Task.all.order(deadline: :asc).page(params[:page]).per(PER)
+      @tasks = current_user.tasks.find(params[:id]).all.order(deadline: :asc).page(params[:page]).per(PER)
     elsif params[:sort_priority]
-      @tasks = Task.all.order(priority: :asc).page(params[:page]).per(PER)
+      @tasks = current_user.tasks.find(params[:id]).all.order(priority: :asc).page(params[:page]).per(PER)
     elsif params[:name].present?
-      @tasks = Task.where(name: params[:name]).page(params[:page]).per(PER)
+      @tasks = current_user.tasks.find(params[:id]).where(name: params[:name]).page(params[:page]).per(PER)
     if params[:status].present?
-        @tasks = Task.where(name: params[:name]).where(status: params[:status]).page(params[:page]).per(PER)
+      @tasks = current_user.tasks.find(params[:id]).where(name: params[:name]).where(status: params[:status]).page(params[:page]).per(PER)
     end  
     elsif params[:status].present?
-        @tasks = Task.where(status: params[:status]).page(params[:page]).per(PER)
+      @tasks = current_user.tasks.find(params[:id]).where(status: params[:status]).page(params[:page]).per(PER)
     else
       puts params[:sort_deadline]
-      @tasks = Task.all.order(created_at: :desc).page(params[:page]).per(PER)
+      @tasks = current_user.tasks.order(created_at: :desc).page(params[:page]).per(PER)
     end
   end
 
@@ -30,7 +31,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
 
     respond_to do |format|
       if @task.save

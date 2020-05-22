@@ -1,0 +1,33 @@
+<h1>ユーザー詳細</h1>
+<p>
+  <strong>名前:</strong>
+  <%= @user.name %>
+</p>
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+<p>
+  <strong>管理者:</strong>
+  <%= @user.admin %>
+</p>
+<table>
+  <thead>
+      <tr>
+        <th><%= "タスク" %></th>
+        <th><%= "詳細" %></th>
+      </tr>
+  </thead>
+  <br>
+  <tbody>
+      <% @user.tasks.each do |task| %>
+        <tr>
+          <td id="task_row" ><%= task.title %></td>
+          <td><%= task.content %></td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+<br>
+<%= link_to '編集', edit_admin_user_path(@user) %> |
+<%= link_to '戻る', tasks_path %>
