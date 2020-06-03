@@ -7,6 +7,11 @@ class TasksController < ApplicationController
       @tasks = current_user.tasks.find(params[:id]).all.order(deadline: :asc).page(params[:page]).per(PER)
     elsif params[:sort_priority]
       @tasks = current_user.tasks.find(params[:id]).all.order(priority: :asc).page(params[:page]).per(PER)
+    elsif params[:name] && params[:status] && params[:label_ids]
+      @status = params[:status].to_i
+      @label_id = params[:label_ids]
+      @tasl_labels = TaskLabel.where(label_id: @label_id).pluck(:task_id)
+      @tasks = Task.where(id: @tasl_labels).page(params[:page]).per(PER)
     elsif params[:name].present?
       @tasks = current_user.tasks.find(params[:id]).where(name: params[:name]).page(params[:page]).per(PER)
     if params[:status].present?
@@ -24,14 +29,14 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task = Task.new
+    @task = current_user.tasks.build
   end
 
   def edit
   end
 
   def create
-    @task = current_user.tasks.new(task_params)
+    @task = current_user.tasks.build(task_params)
 
     respond_to do |format|
       if @task.save
@@ -70,6 +75,6 @@ class TasksController < ApplicationController
     end
 
     def task_params
-      params.require(:task).permit(:name, :description, :deadline, :priority, :status)
+      params.require(:task).permit(:name, :description, :deadline, :priority, :status, label_ids: [])
     end
 end
